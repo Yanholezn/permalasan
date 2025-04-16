@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WannN Go Go</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;600;700&display=swap');
+
+        * {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            display: flex;
+            height: 100vh;
+            background: rgba(43, 37, 74, 1);
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-container img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .login-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .box_login {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            height: 430px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .login_font {
+            font-size: 20px;
+            color: black;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .text{
+            justify-items: start;
+        }
+
+        .sig_in{
+            padding-left: 10px;
+            font-size: 13px;
+            margin-top: 3px;
+            margin-bottom: 10px;
+            
+        }
+
+        .login-button {
+            position: relative;
+            width: 100%;
+            padding: 10px;
+            background-color: rgba(43, 37, 74, 1);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .login-button:hover {
+            background-color: rgba(30, 25, 60, 1);
+        }
+
+        .register-button {
+            width: 100%;
+            background-color: white;
+            padding: 10px; 
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+
+        }
+
+        .register-button:hover {
+            background-color: rgba(30, 25, 60, 1);
+            color:white
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo-container">
+            <img src="image/raizm.jpg" alt="AwannN go go">
+        </div>
+        <div class="login-container">
+            <div class="box_login">
+                <span class="login_font">Log in to continue</span>
+                
+                <!-- Display error message if any -->
+                <% if(typeof error !== 'undefined'){ %>
+                    <div class="error-message">
+                        <%= error %>
+                    </div>
+                <% } %>
+                
+                <!-- Login form with correct action path -->
+                <form action="/login" method="POST">
+                    <input type="text" name="username" class="input-field" placeholder="Username or Email" required>
+                    <input type="password" name="password" class="input-field" placeholder="Password" required>
+                    <div class="text">
+                        <p class="sig_in">you don't have account? <a href="/register">sign up</a></p>
+                    </div>
+                    <button type="submit" class="login-button">Log in</button>
+                </form>
+                
+                <!-- Fixed register button with link to registration page -->
+                <a href="/register"><button type="button" class="register-button">Sign up</button></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

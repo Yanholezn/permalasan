@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WannN Go Go</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: rgba(43, 37, 74, 1);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            color: white;
+        }
+        .upbar {
+            background: rgba(37, 33, 58, 1);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+        }
+
+        .gambar {
+            width: 8%;
+            margin-left: 30px;
+        }
+
+        .menu-icon {
+            cursor: pointer;
+            font-size: 35px;
+            margin-right: 20px;
+            color: white;
+            font-weight: 600;
+        }
+
+        .menu-icon:hover {
+            color: rgba(217, 217, 217, 1);
+        }
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: #222831;
+            color: white;
+            transition: left 0.3s ease-in-out;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .sidebar.show {
+            left: 0;
+        }
+
+        .sidebar aside {
+            padding: 20px;
+        }
+
+        .sidebar h3 {
+            color: #7b68ee;
+            padding: 5%;
+            padding-bottom: 65px;
+            font-size: 1.5em;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar ul li a {
+            color: #f2f2f2;
+            text-decoration: none;
+            font-size: 1.1em;
+            transition: color 0.3s ease, padding-left 0.3s ease;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .sidebar ul li a:hover {
+            color: #7b68ee;
+            background: rgba(255, 255, 255, 0.1);
+            padding-left: 15px;
+        }
+
+        /* Main content container */
+        .content-container {
+            display: flex;
+            margin-top: 10px;
+            padding: 20px;
+            transition: margin-left 0.3s;
+        }
+        
+        .content-container.shifted {
+            margin-left: 270px;
+        }
+
+        .board {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            white-space: nowrap;
+            cursor: grab;
+            user-select: none;
+            flex: 1;
+            /* Hide scrollbar while maintaining scroll functionality */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+        
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .board::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .board:active {
+            cursor: grabbing;
+        }
+        
+        .list {
+            background: #1e1e1e;
+            border-radius: 10px;
+            width: 300px;
+            min-width: 300px;
+            max-height: calc(100vh - 105px);
+            display: flex;
+            flex-direction: column;
+            color: white;
+            flex-shrink: 0; /* Prevent lists from shrinking */
+        }
+        
+        .column-header {
+            padding: 15px;
+            font-weight: 600;
+            border-bottom: 1px solid #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        
+        .column-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: white;
+        }
+        
+        .task-count {
+            background: #333;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: normal;
+        }
+        
+        .add-task-btn {
+            background: transparent;
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 20px;
+            line-height: 1;
+            transition: color 0.3s;
+        }
+        
+        .add-task-btn:hover {
+            color: #7b68ee;
+        }
+        
+        .tasks-container {
+            padding: 10px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        
+        .task-card {
+            background: #252525;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 4px solid transparent;
+            color: white;
+        }
+        
+        .task-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        
+        .high-priority {
+            border-left-color: #ff5252;
+        }
+        
+        .medium-priority {
+            border-left-color: #ffc107;
+        }
+        
+        .low-priority {
+            border-left-color: #7b68ee;
+        }
+        
+        .task-title {
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: white;
+        }
+        
+        .task-description {
+            color: white;
+            font-size: 14px;
+            margin-bottom: 15px;
+        }
+        
+        .task-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: white;
+        }
+        
+        .task-labels {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .task-label {
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            background: #333;
+            color: white;
+        }
+        
+        .label-design {
+            background: rgba(123, 104, 238, 0.2);
+            color: white;
+        }
+        
+        .label-bug {
+            background: rgba(255, 82, 82, 0.2);
+            color: white;
+        }
+        
+        .label-feature {
+            background: rgba(76, 175, 80, 0.2);
+            color: white;
+        }
+        
+        .task-members {
+            display: flex;
+            margin-right: 5px;
+            color: white;
+        }
+        
+        .upload-box {
+            width: 250px;
+            height: 150px;
+            border: 2px dashed white;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: background-color 0.3s ease;
+            flex-shrink: 0;
+            margin-left: 20px;
+        }
+
+        .upload-box:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .plus {
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="upbar">
+        <img src="image/LOGO.png" class="gambar" alt="wannN">
+        <div class="menu-icon" onclick="toggleMenu()">☰</div>
+    </div>
+    
+    <div class="sidebar" id="sidebar">
+        <aside>
+            <h3>Menu</h3>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Archive</a></li>
+                <li><a href="#">Collab</a></li>
+            </ul>
+        </aside>
+    </div>
+    
+    <div class="content-container" id="content-container">
+        <div class="board" id="board">
+            <!-- Lists will be added here -->
+        </div>
+        
+        <div class="upload-box" onclick="openAddListModal()">
+            <span class="plus">+</span>
+        </div>
+    </div>
+
+    <script>
+        const board = document.getElementById("board");
+        const contentContainer = document.getElementById("content-container");
+        let lists = [];
+        let isDragging = false;
+        let startX, scrollLeft;
+        let dragCard = null;
+
+        function toggleMenu() {
+            const sidebar = document.getElementById("sidebar");
+            sidebar.classList.toggle("show");
+            contentContainer.classList.toggle("shifted");
+        }
+
+        function openAddListModal() {
+            const listTitle = prompt("Enter new list name:");
+            if (listTitle && listTitle.trim() !== "") {
+                const list = { title: listTitle, cards: [] };
+                lists.push(list);
+                renderBoard();
+            }
+        }
+
+        function addCard(index, event) {
+            // Prevent event propagation to the board
+            event.stopPropagation();
+            
+            const cardTitle = prompt("Enter card title:");
+            if (cardTitle && cardTitle.trim() !== "") {
+                lists[index].cards.push({ 
+                    title: cardTitle, 
+                    description: "Card description", 
+                    priority: "low-priority",
+                    date: new Date().toLocaleDateString()
+                });
+                
+                // Only re-render the specific list that was modified
+                renderList(index);
+            }
+        }
+
+        function toggleCardCompletion(listIndex, cardIndex, event) {
+            // Prevent event propagation to the board
+            event.stopPropagation();
+            
+            lists[listIndex].cards[cardIndex].completed = !lists[listIndex].cards[cardIndex].completed;
+            
+            // Only re-render the specific list that was modified
+            renderList(listIndex);
+        }
+
+        function renderList(listIndex) {
+            // Get the current list element
+            const listElements = document.querySelectorAll('.list');
+            if (listIndex < listElements.length) {
+                const list = lists[listIndex];
+                const listElement = listElements[listIndex];
+                
+                // Update the list content
+                listElement.innerHTML = `
+                    <div class="column-header">
+                        <div class="column-title">
+                            <span>${list.title}</span>
+                            <span class="task-count">${list.cards.length}</span>
+                        </div>
+                        <button class="add-task-btn" onclick="addCard(${listIndex}, event)">+</button>
+                    </div>
+                    <div class="tasks-container">
+                        ${list.cards.map((card, cardIndex) => `
+                            <div class="task-card ${card.priority || 'low-priority'}" onclick="toggleCardCompletion(${listIndex}, ${cardIndex}, event)">
+                                <div class="task-title">${card.title}</div>
+                                <div class="task-description">${card.description || ''}</div>
+                                <div class="task-meta">
+                                    <div class="task-members">
+                                        ${card.members ? card.members.map(member => `<div class="member-avatar">${member}</div>`).join('') : ''}
+                                    </div>
+                                    <div>${card.date || ''}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            }
+        }
+
+        function renderBoard() {
+            board.innerHTML = "";
+            lists.forEach((list, listIndex) => {
+                const listElement = document.createElement("div");
+                listElement.className = "list";
+                listElement.innerHTML = `
+                    <div class="column-header">
+                        <div class="column-title">
+                            <span>${list.title}</span>
+                            <span class="task-count">${list.cards.length}</span>
+                        </div>
+                        <button class="add-task-btn" onclick="addCard(${listIndex}, event)">+</button>
+                    </div>
+                    <div class="tasks-container">
+                        ${list.cards.map((card, cardIndex) => `
+                            <div class="task-card ${card.priority || 'low-priority'}" onclick="toggleCardCompletion(${listIndex}, ${cardIndex}, event)">
+                                <div class="task-title">${card.title}</div>
+                                <div class="task-description">${card.description || ''}</div>
+                                <div class="task-meta">
+                                    <div class="task-members">
+                                        ${card.members ? card.members.map(member => `<div class="member-avatar">${member}</div>`).join('') : ''}
+                                    </div>
+                                    <div>${card.date || ''}</div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                board.appendChild(listElement);
+            });
+        }
+
+        // Fix drag scroll behavior on board
+        board.addEventListener("mousedown", (e) => {
+            // Only activate drag if clicking directly on the board, not on a card or button
+            if (e.target === board) {
+                isDragging = true;
+                startX = e.pageX - board.offsetLeft;
+                scrollLeft = board.scrollLeft;
+                board.style.cursor = "grabbing";
+            }
+        });
+
+        board.addEventListener("mouseleave", () => {
+            isDragging = false;
+            board.style.cursor = "grab";
+        });
+
+        board.addEventListener("mouseup", () => {
+            isDragging = false;
+            board.style.cursor = "grab";
+        });
+
+        board.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+            e.preventDefault();
+            const x = e.pageX - board.offsetLeft;
+            const walk = (x - startX) * 2; 
+            board.scrollLeft = scrollLeft - walk;
+        });
+
+        // Initialize empty board
+        window.onload = function() {
+            lists = [];
+            renderBoard();
+        };
+    </script>
+</body>
+</html>
