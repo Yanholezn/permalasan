@@ -2,10 +2,14 @@ const express = require("express");
 const authController = require("../controllers/authController");
 const router = express.Router();
 
-router.get("/Register", (_req, res) => {
+router.get("/register", (_req, res) => {
     res.render("register");
 });
 
-router.post("/Register", authController.register);
+// Menambahkan middleware untuk logging data register
+router.post("/register", (req, res, next) => {
+    console.log("Register data:", req.body);
+    next();
+}, authController.register);
 
 module.exports = router;

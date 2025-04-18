@@ -6,6 +6,7 @@
     <title>WannN Go Go</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;600;700&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
 
         * {
             font-family: 'Poppins', sans-serif;
@@ -52,7 +53,7 @@
             border-radius: 10px;
             width: 100%;
             max-width: 400px;
-            height: 430px;
+            height: 420px;
             text-align: center;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
         }
@@ -73,6 +74,26 @@
             border-radius: 5px;
         }
 
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #ccc;
+            transition: color 0.2s;
+            font-size: 14px;
+        }
+
+        .toggle-password:hover {
+            color: #999;
+        }
+
         .text{
             justify-items: start;
         }
@@ -82,7 +103,6 @@
             font-size: 13px;
             margin-top: 3px;
             margin-bottom: 10px;
-            
         }
 
         .login-button {
@@ -110,12 +130,17 @@
             font-size: 16px;
             cursor: pointer;
             margin-top: 10px;
-
         }
 
         .register-button:hover {
             background-color: rgba(30, 25, 60, 1);
             color:white
+        }
+
+        .error-message {
+            color: red;
+            margin-bottom: 10px;
+            font-size: 14px;
         }
     </style>
 </head>
@@ -129,26 +154,78 @@
                 <span class="login_font">Log in to continue</span>
                 
                 <!-- Display error message if any -->
-                <% if(typeof error !== 'undefined'){ %>
-                    <div class="error-message">
-                        <%= error %>
-                    </div>
-                <% } %>
+                <div id="errorMessage" class="error-message" style="display: none;"></div>
                 
-                <!-- Login form with correct action path -->
-                <form action="/login" method="POST">
-                    <input type="text" name="username" class="input-field" placeholder="Username or Email" required>
-                    <input type="password" name="password" class="input-field" placeholder="Password" required>
+                <!-- Login form with AJAX submission -->
+                <form id="loginForm" autocomplete="on">
+                    <input type="text" name="username" id="username" class="input-field" placeholder="Username or Email" required autocomplete="username">
+                    
+                    <div class="password-container">
+                        <input type="password" name="password" id="password" class="input-field" placeholder="Password" required autocomplete="current-password">
+                        <span class="toggle-password" onclick="togglePassword()">
+                            <i class="fa-solid fa-eye-slash" id="eyeIcon"></i>
+                        </span>
+                    </div>
+                    
                     <div class="text">
                         <p class="sig_in">you don't have account? <a href="/register">sign up</a></p>
                     </div>
                     <button type="submit" class="login-button">Log in</button>
                 </form>
-                
-                <!-- Fixed register button with link to registration page -->
-                <a href="/register"><button type="button" class="register-button">Sign up</button></a>
             </div>
         </div>
     </div>
+
+    <script>
+        // Toggle password visibility using eye icon
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.className = 'fa-solid fa-eye';
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.className = 'fa-solid fa-eye-slash';
+            }
+        }
+
+        // Form submission
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const errorDiv = document.getElementById('errorMessage');
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Reset error message
+            errorDiv.style.display = 'none';
+            
+            fetch('/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ username, password })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    // Display error message
+                    errorDiv.textContent = data.error;
+                    errorDiv.style.display = 'block';
+                } else {
+                    // Redirect to home page on success
+                    window.location.href = '/home';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                errorDiv.textContent = 'Terjadi kesalahan. Silakan coba lagi.';
+                errorDiv.style.display = 'block';
+            });
+        });
+    </script>
 </body>
 </html>

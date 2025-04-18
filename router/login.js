@@ -61,7 +61,4 @@ router.get("/home", isAuthenticated, (req, res) => {
     res.render("home", { username: req.user.username });
 });
 
-// Add route for user profile if needed
-router.get("/profile", isAuthenticated, authController.getUserProfile);
-
 module.exports = router;

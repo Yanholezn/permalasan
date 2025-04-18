@@ -24,7 +24,7 @@
 
         .gambar {
             width: 8%;
-            margin-left: 30px;
+            margin-left: 60px;
         }
 
         .menu-icon {
@@ -39,15 +39,16 @@
             color: rgba(217, 217, 217, 1);
         }
 
+        /* Updated Sidebar Styles */
         .sidebar {
             position: fixed;
             top: 0;
-            left: -250px;
+            left: -299px;
             width: 250px;
             height: 100%;
             background: #222831;
-            color: white;
-            transition: left 0.3s ease-in-out;
+            padding: 20px;
+            transition: left 0.2s ease-in-out;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
             z-index: 1000;
         }
@@ -55,14 +56,10 @@
             left: 0;
         }
 
-        .sidebar aside {
-            padding: 20px;
-        }
-
         .sidebar h3 {
             color: #7b68ee;
             padding: 5%;
-            padding-bottom: 65px;
+            padding-bottom: 45px;
             font-size: 1.5em;
         }
 
@@ -79,16 +76,25 @@
             color: #f2f2f2;
             text-decoration: none;
             font-size: 1.1em;
-            transition: color 0.3s ease, padding-left 0.3s ease;
-            display: block;
-            padding: 10px;
+            transition: all 0.3s ease;
+            display: flex;
+            padding: 12px 15px;
             border-radius: 5px;
+            align-items: center;
         }
 
         .sidebar ul li a:hover {
             color: #7b68ee;
             background: rgba(255, 255, 255, 0.1);
             padding-left: 15px;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar ul li a i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
         }
 
         /* Main content container */
@@ -105,7 +111,7 @@
 
         .board {
             display: flex;
-            gap: 10px;
+            gap: 20px; /* Increased gap between lists */
             overflow-x: auto;
             white-space: nowrap;
             cursor: grab;
@@ -130,14 +136,14 @@
             border-radius: 10px;
             width: 300px;
             min-width: 300px;
-            max-width: 300px; /* Added max-width to ensure consistent width */
+            max-width: 300px;
             max-height: calc(100vh - 105px);
             display: flex;
             flex-direction: column;
             flex-shrink: 0;
-            flex-grow: 0; /* Prevent growing */
+            flex-grow: 0;
             color: white;
-            overflow: hidden; /* Prevent content from affecting width */
+            overflow: hidden;
         }
         
         .column-header {
@@ -148,8 +154,8 @@
             justify-content: space-between;
             align-items: center;
             color: white;
-            width: 100%; /* Ensure full width */
-            box-sizing: border-box; /* Include padding in width */
+            width: 100%;
+            box-sizing: border-box;
         }
         
         .column-title {
@@ -157,10 +163,10 @@
             align-items: center;
             gap: 8px;
             color: white;
-            overflow: hidden; /* Prevent overflow */
-            text-overflow: ellipsis; /* Add ellipsis for long titles */
-            white-space: nowrap; /* Keep titles on one line */
-            max-width: 80%; /* Limit title width */
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 80%;
         }
         
         .task-count {
@@ -170,7 +176,7 @@
             border-radius: 10px;
             font-size: 12px;
             font-weight: normal;
-            flex-shrink: 0; /* Prevent count from shrinking */
+            flex-shrink: 0;
         }
         
         .add-task-btn {
@@ -181,7 +187,7 @@
             font-size: 20px;
             line-height: 1;
             transition: color 0.3s;
-            flex-shrink: 0; /* Prevent button from shrinking */
+            flex-shrink: 0;
         }
         
         .add-task-btn:hover {
@@ -189,27 +195,27 @@
         }
         
         .tasks-container {
-            padding: 10px;
+            padding: 15px; /* Increased padding */
             overflow-y: auto;
             flex-grow: 1;
-            width: 100%; /* Ensure full width */
-            box-sizing: border-box; /* Include padding in width */
+            width: 100%;
+            box-sizing: border-box;
         }
         
         .task-card {
             background: #252525;
             border-radius: 8px;
             padding: 15px;
-            margin-bottom: 10px;
+            margin-bottom: 15px; /* Increased margin between cards */
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
             border-left: 4px solid transparent;
             color: white;
-            width: 100%; /* Ensure full width */
-            box-sizing: border-box; /* Include padding in width */
-            word-wrap: break-word; /* Allow text to wrap */
-            white-space: normal; /* Allow text to wrap to multiple lines */
+            width: 100%;
+            box-sizing: border-box;
+            word-wrap: break-word;
+            white-space: normal;
         }
         
         .task-card:hover {
@@ -231,16 +237,16 @@
         
         .task-title {
             font-weight: 500;
-            margin-bottom: 8px;
+            margin-bottom: 12px; /* Increased margin */
             color: white;
-            word-wrap: break-word; /* Allow text to wrap */
+            word-wrap: break-word;
         }
         
         .task-description {
             color: white;
             font-size: 14px;
             margin-bottom: 15px;
-            word-wrap: break-word; /* Allow text to wrap */
+            word-wrap: break-word;
         }
         
         .task-meta {
@@ -254,8 +260,8 @@
         .task-labels {
             display: flex;
             gap: 5px;
-            margin-bottom: 10px;
-            flex-wrap: wrap; /* Allow labels to wrap */
+            margin-bottom: 12px; /* Increased margin */
+            flex-wrap: wrap;
         }
         
         .task-label {
@@ -264,7 +270,7 @@
             font-size: 12px;
             background: #333;
             color: white;
-            margin-bottom: 3px; /* Add space between wrapped items */
+            margin-bottom: 3px;
         }
         
         .label-design {
@@ -286,7 +292,7 @@
             display: flex;
             margin-right: 5px;
             color: white;
-            flex-wrap: wrap; /* Allow members to wrap */
+            flex-wrap: wrap;
         }
         
         .upload-box {
@@ -314,6 +320,8 @@
             font-weight: bold;
         }
     </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="upbar">
@@ -322,14 +330,11 @@
     </div>
     
     <div class="sidebar" id="sidebar">
-        <aside>
-            <h3>Menu</h3>
-            <ul>
-                <li><a href="/Home">Home</a></li>
-                <li><a href="/Archive">Archive</a></li>
-                <li><a href="/Collab">Collab</a></li>
-            </ul>
-        </aside>
+        <h3>Menu</h3>
+        <ul>
+            <li><a href="/Home"><i class="fas fa-home"></i>Home</a></li>
+            <li><a href="/Archive"><i class="fas fa-archive"></i>Archive</a></li>
+        </ul>
     </div>
     
     <div class="content-container" id="content-container">

@@ -3,121 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>register</title>
-</head>
-<style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;600;700&display=swap');
+    <meta name="description" content="Register page">
+    <title>Register</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;600;700&display=swap');
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css');
 
-    * {
-        font-family: 'Poppins', sans-serif;
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+        * {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-        display: flex;
-        height: 100vh;
-        background: rgba(43, 37, 74, 1);
-    }
+        body {
+            display: flex;
+            height: 100vh;
+            background: rgba(43, 37, 74, 1);
+        }
 
-    .container {
-        display: flex;
-        width: 100%;
-        justify-content: center;
-        align-items: center;
-    }
+        .container {
+            display: flex;
+            width: 100%;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .logo-container {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        .logo-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .logo-container img {
-        max-width: 100%;
-        height: auto;
-    }
+        .logo-container img {
+            max-width: 100%;
+            height: auto;
+        }
 
-    .login-container {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        .register-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-    .box_login {
-        background-color: white;
-        padding: 30px;
-        border-radius: 10px;
-        width: 100%;
-        max-width: 400px;
-        height: 430px;
-        text-align: center;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-    }
+        .box_register {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            height: 460px;
+            text-align: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-    .login_font {
-        font-size: 20px;
-        color: black;
-        font-weight: 600;
-        margin-bottom: 20px;
-        display: block;
-    }
+        .register_font {
+            font-size: 20px;
+            color: black;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: block;
+        }
 
-    .input-field {
-        width: 100%;
-        padding: 10px;
-        margin: 10px 0;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-    }
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
 
-    .register-button {
-        width: 100%;
-        background-color: white;
-        padding: 10px; 
-        border-radius: 5px;
-        font-size: 16px;
-        cursor: pointer;
-        margin-top: 10px;
+        .password-container {
+            position: relative;
+            width: 100%;
+        }
 
-    }
+        .toggle-password {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #ccc;
+            transition: color 0.2s;
+            font-size: 14px;
+        }
 
-    .register-button:hover {
-        background-color: rgba(30, 25, 60, 1);
-        color:white
-    }
-</style>
+        .toggle-password:hover {
+            color: #999;
+        }
+
+        .register-button {
+            width: 100%;
+            padding: 10px; 
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            background-color: rgba(43, 37, 74, 1);
+            color: white;
+            border: none;
+        }
+
+        .register-button:hover {
+            background-color: rgba(30, 25, 60, 1);
+        }
+
+        .text {
+            justify-items: start;
+        }
+        
+        .log_in {
+            padding-left: 10px;
+            font-size: 13px;
+            margin-top: 3px;
+            margin-bottom: 10px;
+        }
+
+        .error-message {
+            color: red;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
-    <div class="logo-container">
-        <img src="image/raizm.jpg" alt="AwannN go go">
-    </div>
-    <div class="login-container">
-        <div class="box_login">
-            <span class="login_font">Register</span>
-            
-            <!-- Display error message if any -->
-            <% if(typeof error !== 'undefined'){ %>
-                <div class="error-message">
-                    <%= error %>
-                </div>
-            <% } %>
-            
-            <!-- Login form with correct action path -->
-            <form action="/Register" method="POST">
-                <input type="text" name="username" class="input-field" placeholder="Username" required>
-                <input type="password" name="password" class="input-field" placeholder="Password" required>
-                <input type="email" name="email" class="input-field" placeholder="Email" required>
-            </form>
-            
-            <!-- Fixed register button with link to registration page -->
-            <a href="/register"><button type="button" class="register-button" autocomplete="register">Sign up</button></a>
+    <div class="container">
+        <div class="logo-container">
+            <img src="image/raizm.jpg" alt="AwannN go go">
+        </div>
+        <div class="register-container">
+            <div class="box_register">
+                <span class="register_font">Create an account</span>
+                
+                <!-- Display error message if any -->
+                <% if(typeof error !== 'undefined'){ %>
+                    <div class="error-message">
+                        <%= error %>
+                    </div>
+                <% } %>
+                
+                <form action="/register" method="POST" autocomplete="on">
+                    <input type="text" name="username" class="input-field" placeholder="Username" required autocomplete="username">
+                    <input type="email" name="email" class="input-field" placeholder="Email" required autocomplete="email">
+                    
+                    <div class="password-container">
+                        <input type="password" name="password" id="password" class="input-field" placeholder="Password" required autocomplete="new-password">
+                        <span class="toggle-password" onclick="togglePassword()">
+                            <i class="fa-solid fa-eye-slash" id="eyeIcon"></i>
+                        </span>
+                    </div>
+                    
+                    <div class="text">
+                        <p class="log_in">Already have an account? <a href="/">Log in</a></p>
+                    </div>
+                    <button type="submit" class="register-button">Create Account</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
+
+    <script>
+        // Toggle password visibility using eye icon
+        function togglePassword() {
+            const passwordField = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                eyeIcon.className = 'fa-solid fa-eye';
+            } else {
+                passwordField.type = 'password';
+                eyeIcon.className = 'fa-solid fa-eye-slash';
+            }
+        }
+    </script>
 </body>
 </html>
